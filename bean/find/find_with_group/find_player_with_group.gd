@@ -11,6 +11,7 @@ func _ready() -> void:
 			await get_tree().create_timer(1).timeout
 			node_found_in_group.hide()
 			await get_tree().create_timer(1).timeout
-		
+		else:
+			await get_tree().create_timer(1).timeout
 		
 	
