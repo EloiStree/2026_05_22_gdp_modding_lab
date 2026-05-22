@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bm73kdkxg8u8c"]
+
+[ext_resource type="Script" uid="uid://de57te0gjdeci" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/call_method/example_call_methods.gd" id="1_17asc"]
+
+[node name="HBoxContainerCallLightCode" type="HBoxContainer" unique_id=1444272621]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.062000003
+offset_right = -9.0
+offset_bottom = -2.1760025
+
+[node name="Call Methods" type="Node" parent="." unique_id=159314902]
+script = ExtResource("1_17asc")
+
+[node name="Button On" type="Button" parent="." unique_id=1658641220]
+layout_mode = 2
+text = "Turn On"
+
+[node name="Button Off" type="Button" parent="." unique_id=1127263636]
+layout_mode = 2
+text = "Turn Off"
+
+[node name="Button Random Color" type="Button" parent="." unique_id=1080468145]
+layout_mode = 2
+text = "Random Color"
+
+[node name="Check On Off" type="CheckButton" parent="." unique_id=558803132]
+layout_mode = 2
+text = "Turn"
+
+[connection signal="button_down" from="Button On" to="Call Methods" method="turn_on_light"]
+[connection signal="button_down" from="Button Off" to="Call Methods" method="turn_off_light"]
+[connection signal="button_down" from="Button Random Color" to="Call Methods" method="set_random_color"]
+[connection signal="toggled" from="Check On Off" to="Call Methods" method="set_light_state"]

@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://4cmtcwra1ekv"]
+
+[ext_resource type="Script" uid="uid://ibcse0n4i2uq" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/call_method/example_callable_methods.gd" id="1_me62b"]
+[ext_resource type="Script" uid="uid://de57te0gjdeci" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/call_method/example_call_methods.gd" id="2_7gp0g"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jsanc"]
+
+[node name="Demo" type="Node3D" unique_id=2020618645]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2112979867]
+light_energy = 0.525
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=79179653]
+transform = Transform3D(1, 0, 0, 0, 0.2909673, 0, 0, 0, 1, 0, -0.14538097, 0)
+mesh = SubResource("BoxMesh_jsanc")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1643402848]
+transform = Transform3D(1, 0, 0, 0, 0.94246656, 0.3343004, 0, -0.3343004, 0.94246656, 0, 0.5309515, 1.2053785)
+
+[node name="Node" type="Node" parent="." unique_id=1563379971]
+
+[node name="Callable Methods" type="Node" parent="Node" unique_id=1689459716 node_paths=PackedStringArray("light")]
+script = ExtResource("1_me62b")
+light = NodePath("../../DirectionalLight3D")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=708795687]
+
+[node name="HBoxContainerCallLightCode" type="HBoxContainer" parent="CanvasLayer" unique_id=1444272621]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.062000003
+offset_right = -9.0
+offset_bottom = -2.1760025
+
+[node name="Call Methods" type="Node" parent="CanvasLayer/HBoxContainerCallLightCode" unique_id=159314902 node_paths=PackedStringArray("node_to_affect")]
+script = ExtResource("2_7gp0g")
+node_to_affect = NodePath("../../../Node/Callable Methods")
+
+[node name="Button On" type="Button" parent="CanvasLayer/HBoxContainerCallLightCode" unique_id=1658641220]
+layout_mode = 2
+text = "Turn On"
+
+[node name="Button Off" type="Button" parent="CanvasLayer/HBoxContainerCallLightCode" unique_id=1127263636]
+layout_mode = 2
+text = "Turn Off"
+
+[node name="Button Random Color" type="Button" parent="CanvasLayer/HBoxContainerCallLightCode" unique_id=1080468145]
+layout_mode = 2
+text = "Random Color"
+
+[node name="Check On Off" type="CheckButton" parent="CanvasLayer/HBoxContainerCallLightCode" unique_id=558803132]
+layout_mode = 2
+text = "Turn"
+
+[connection signal="button_down" from="CanvasLayer/HBoxContainerCallLightCode/Button On" to="CanvasLayer/HBoxContainerCallLightCode/Call Methods" method="turn_on_light"]
+[connection signal="button_down" from="CanvasLayer/HBoxContainerCallLightCode/Button Off" to="CanvasLayer/HBoxContainerCallLightCode/Call Methods" method="turn_off_light"]
+[connection signal="button_down" from="CanvasLayer/HBoxContainerCallLightCode/Button Random Color" to="CanvasLayer/HBoxContainerCallLightCode/Call Methods" method="set_random_color"]
+[connection signal="toggled" from="CanvasLayer/HBoxContainerCallLightCode/Check On Off" to="CanvasLayer/HBoxContainerCallLightCode/Call Methods" method="set_light_state"]
