@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cm2ei8j6v134o"]
+
+[ext_resource type="Script" uid="uid://cvs8p23aqp7vk" path="res://addons/2026_05_22_gdp_modding_lab/bean/find/find_with_group/find_player_with_group.gd" id="1_rdbka"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rdbka"]
+
+[node name="Demo" type="Node3D" unique_id=273886558]
+
+[node name="Player" type="Node3D" parent="." unique_id=1292231167 groups=["player"]]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=137935038]
+mesh = SubResource("CapsuleMesh_rdbka")
+
+[node name="Node" type="Node" parent="." unique_id=1622111427]
+script = ExtResource("1_rdbka")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=350488735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.853632)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D" unique_id=1858798882]
