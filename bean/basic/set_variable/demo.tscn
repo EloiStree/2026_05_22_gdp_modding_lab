@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://caj07og6ifw4u"]
+
+[ext_resource type="Script" uid="uid://3bplbt3fkr1v" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/set_variable/wheel_speed_variable.gd" id="1_3hxhm"]
+[ext_resource type="Script" uid="uid://ctcw061vix27e" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/set_variable/change_variable_of_wheel.gd" id="2_rwxsr"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_aexc0"]
+
+[node name="Demo" type="Node3D" unique_id=1075415286]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1589455993]
+transform = Transform3D(1, 0, 0, 0, 0.8471405, 0.531369, 0, -0.531369, 0.8471405, 0, 0.7463212, 1.1257802)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D" unique_id=2059965526]
+
+[node name="Anchor" type="Node3D" parent="." unique_id=670479179]
+transform = Transform3D(0.81404454, 0, -0.58080244, 0, 1, 0, 0.58080244, 0, 0.81404454, 0, 0, 0)
+
+[node name="Pivot" type="Node3D" parent="Anchor" unique_id=217787886]
+transform = Transform3D(-0.02964877, 0, -0.99956036, 0, 1, 0, 0.99956036, 0, -0.02964877, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Anchor/Pivot" unique_id=1681363623]
+transform = Transform3D(0.4, 0, 0, 0, -5.857326e-09, 0.4, 0, -0.134, -1.7484556e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_aexc0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Anchor/Pivot" unique_id=2039172896]
+transform = Transform3D(0.21010251, 0, 0, 0, -5.857326e-09, 0.3069702, 0, -0.134, -1.3418095e-08, -5.551115e-18, 0.06918436, -3.0241447e-09)
+mesh = SubResource("CylinderMesh_aexc0")
+
+[node name="WheelSpeed" type="Node" parent="Anchor" unique_id=1352519430 node_paths=PackedStringArray("node_to_rotate")]
+script = ExtResource("1_3hxhm")
+node_to_rotate = NodePath("../Pivot")
+
+[node name="Change With Value" type="Node" parent="." unique_id=2023408943 node_paths=PackedStringArray("node_to_affect")]
+script = ExtResource("2_rwxsr")
+node_to_affect = NodePath("../Anchor/WheelSpeed")
+variable_name_to_change = "wheel_speed_x"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=491087779]
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer" unique_id=706499730]
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.037
+offset_right = 1.0
+offset_bottom = 0.024000168
+min_value = -30.0
+max_value = 30.0
+
+[connection signal="value_changed" from="CanvasLayer/HSlider" to="Change With Value" method="set_speed"]
