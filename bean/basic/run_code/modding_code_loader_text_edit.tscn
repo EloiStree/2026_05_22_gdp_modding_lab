@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://uaefse3oals8"]
+
+[ext_resource type="Script" uid="uid://ba1fd81r1lqv3" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_run_text_as_script.gd" id="1_5hmgd"]
+[ext_resource type="Script" uid="uid://bbpecqrwascwy" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_and_validate_button.gd" id="2_m2e7l"]
+[ext_resource type="Script" uid="uid://svr53fv3atrl" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_load_default_script.gd" id="3_m2e7l"]
+[ext_resource type="Script" uid="uid://hn6oa4lbig1f" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_just_a_hello_world.gd" id="4_ecu5k"]
+
+[node name="ModdingCodeLoaderTextEdit" type="Control" unique_id=477758516]
+layout_mode = 3
+anchor_right = 0.32700002
+anchor_bottom = 0.998
+offset_right = 0.29595947
+offset_bottom = 0.29595947
+
+[node name="CodeEdit" type="CodeEdit" parent="." unique_id=1849651803]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.2640381
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="CodeEdit" unique_id=771426199]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.63600004
+anchor_top = 0.89800006
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Run"
+
+[node name="ModRunTextAsScript" type="Node" parent="." unique_id=717450880]
+script = ExtResource("1_5hmgd")
+metadata/_custom_type_script = "uid://ba1fd81r1lqv3"
+
+[node name="ModCodeEditAndSubmitButton" type="Node" parent="ModRunTextAsScript" unique_id=887999293 node_paths=PackedStringArray("code_editor", "submit_button")]
+script = ExtResource("2_m2e7l")
+code_editor = NodePath("../../CodeEdit")
+submit_button = NodePath("../../CodeEdit/Button")
+metadata/_custom_type_script = "uid://bbpecqrwascwy"
+
+[node name="ModCodeEditLoadDefaultScript" type="Node" parent="ModRunTextAsScript" unique_id=307373093 node_paths=PackedStringArray("text_editr_to_affect")]
+script = ExtResource("3_m2e7l")
+script_to_load = ExtResource("4_ecu5k")
+text_editr_to_affect = [NodePath("../../CodeEdit")]
+metadata/_custom_type_script = "uid://svr53fv3atrl"
+
+[connection signal="on_code_submit" from="ModRunTextAsScript/ModCodeEditAndSubmitButton" to="ModRunTextAsScript" method="load_and_run_text_as_godot_script"]
