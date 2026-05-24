@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://7m4swyj48v3"]
 
-[ext_resource type="Script" uid="uid://nr75ul2cdr11" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_text.gd" id="1_dn7lf"]
-[ext_resource type="Script" uid="uid://baug4x5e7tu03" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_script.gd" id="2_7jcdx"]
+[ext_resource type="Script" uid="uid://nr75ul2cdr11" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_text.gd" id="1_dn7lf"]
+[ext_resource type="Script" uid="uid://baug4x5e7tu03" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_script.gd" id="2_7jcdx"]
 [ext_resource type="Script" uid="uid://hn6oa4lbig1f" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_just_a_hello_world.gd" id="3_shjkb"]
-[ext_resource type="Script" uid="uid://sno136jn35ww" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_text_3d.gd" id="4_y5q2w"]
-[ext_resource type="Script" uid="uid://bxplrd7kqkw0e" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_script_3d.gd" id="5_ok40b"]
+[ext_resource type="Script" uid="uid://sno136jn35ww" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_text_3d.gd" id="4_y5q2w"]
+[ext_resource type="Script" uid="uid://bxplrd7kqkw0e" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_script_3d.gd" id="5_ok40b"]
 
 [node name="DemoCodeHolder" type="Node3D" unique_id=794046637]
 

@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://pywwrynrgusk"]
+
+[ext_resource type="Script" uid="uid://sno136jn35ww" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_text_3d.gd" id="1_bhpb3"]
+[ext_resource type="Script" uid="uid://dslng3hkxhgrx" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/fuse_code_from_nodes/fuse_from_direction/mod_fuse_code_from_direction.gd" id="2_mmkcp"]
+[ext_resource type="Script" uid="uid://nr75ul2cdr11" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_text.gd" id="3_noxe7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0owgs"]
+
+[node name="DemoCodeFuseFromDirection" type="Node3D" unique_id=763536155]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1202198581]
+transform = Transform3D(0.96685904, 0, -0.25531077, 0, 1, 0, 0.25531077, 0, 0.96685904, 0.35221648, 0, -0.4931854)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=834791540]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0, 0)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=92469819]
+transform = Transform3D(0.10734309, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.06645911, 0, -1.1920929e-09)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="ModCodeHolderText3D" type="Node3D" parent="Node3D" unique_id=1690334737]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8138428, 0.13135919, 3.7252903e-09)
+script = ExtResource("1_bhpb3")
+code_as_text = "A"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="ModCodeHolderText3D2" type="Node3D" parent="Node3D" unique_id=229288059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0015474856, 0.13135919, 3.7252903e-09)
+script = ExtResource("1_bhpb3")
+code_as_text = "B"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="ModCodeHolderText3D5" type="Node3D" parent="Node3D" unique_id=1486937383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.23884907, 0.13135919, 0)
+script = ExtResource("1_bhpb3")
+code_as_text = "B"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="ModCodeHolderText3D6" type="Node3D" parent="Node3D" unique_id=1308447942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30626446, 0.13135919, 0)
+script = ExtResource("1_bhpb3")
+code_as_text = "B"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="ModCodeHolderText3D3" type="Node3D" parent="Node3D" unique_id=1385322044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29401132, 0.13135919, 0.26044202)
+script = ExtResource("1_bhpb3")
+code_as_text = "C"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="ModCodeHolderText3D4" type="Node3D" parent="Node3D" unique_id=1856811838]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5873687, 0.13135919, 3.7252903e-09)
+script = ExtResource("1_bhpb3")
+code_as_text = "D"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="ModFuseCodeFromDirection" type="Node" parent="Node3D" unique_id=817023705 node_paths=PackedStringArray("anchor_point", "nodes_to_search_in")]
+script = ExtResource("2_mmkcp")
+anchor_point = NodePath("..")
+nodes_to_search_in = [NodePath("..")]
+metadata/_custom_type_script = "uid://dslng3hkxhgrx"
+
+[node name="Timer" type="Timer" parent="Node3D/ModFuseCodeFromDirection" unique_id=98902770]
+autostart = true
+
+[node name="ModCodeHolderText" type="Node" parent="Node3D" unique_id=1905935724]
+script = ExtResource("3_noxe7")
+code_as_text = "Ha ha"
+metadata/_custom_type_script = "uid://nr75ul2cdr11"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=77682358]
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer" unique_id=322405759]
+anchors_preset = -1
+anchor_right = 0.418
+anchor_bottom = 1.0
+offset_right = 0.46398926
+offset_bottom = -2.0
+
+[connection signal="on_code_fused" from="Node3D/ModFuseCodeFromDirection" to="CanvasLayer/TextEdit" method="set_text"]
+[connection signal="timeout" from="Node3D/ModFuseCodeFromDirection/Timer" to="Node3D/ModFuseCodeFromDirection" method="fuse_code_from_nodes_in_inspector"]
