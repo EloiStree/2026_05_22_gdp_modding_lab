@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cp5i1vn63yujp"]
+
+[ext_resource type="Script" uid="uid://cc62m4gidkwxp" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/download_image/mod_download_image_from_url.gd" id="1_0kmay"]
+
+[node name="DemoDownloadImage" type="Node3D" unique_id=1932485267]
+
+[node name="ModDownloadImageFromUrl" type="Node" parent="." unique_id=1967009393]
+script = ExtResource("1_0kmay")
+url_to_download = "https://avatars.githubusercontent.com/u/20149493?v=4"
+metadata/_custom_type_script = "uid://cc62m4gidkwxp"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1600727734]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=1926872778]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="on_image_loaded_as_texture" from="ModDownloadImageFromUrl" to="CanvasLayer/TextureRect" method="set_texture"]

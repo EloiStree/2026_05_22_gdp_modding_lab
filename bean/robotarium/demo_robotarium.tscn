@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://dga56gkj34w55"]
+
+[ext_resource type="PackedScene" uid="uid://2geiadxc82ku" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/mini_car_from_joystick.tscn" id="1_iwysq"]
+[ext_resource type="Material" uid="uid://r30qfet6qnfh" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/mat_maze_image.tres" id="1_jdo2i"]
+[ext_resource type="Script" uid="uid://cihrgaftpqocg" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/mod_image_pixel_color_basic.gd" id="2_if0x4"]
+[ext_resource type="Texture2D" uid="uid://vmh4ovfykyp3" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/maze.jpg" id="3_5o1bp"]
+[ext_resource type="Script" uid="uid://bobtnumhfhyin" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/mod_give_color_to_mini_car.gd" id="4_gfcg3"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_iwysq"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_iwysq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_iwysq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jdo2i"]
+
+[node name="DemoRobotarium" type="Node3D" unique_id=1577203236]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=677028916]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.9094586, -1.2717648e-07)
+
+[node name="QuadGround" type="Node3D" parent="." unique_id=1529836824]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="QuadGround" unique_id=2041654097]
+transform = Transform3D(1, 0, 0, 0, 2.9802322e-08, 1, 0, -1, 2.9802322e-08, 0, 0, 0)
+material_override = ExtResource("1_jdo2i")
+mesh = SubResource("QuadMesh_iwysq")
+
+[node name="Image Quad Color" type="Node" parent="QuadGround/MeshInstance3D" unique_id=1274795207]
+script = ExtResource("2_if0x4")
+current_texture = ExtResource("3_5o1bp")
+
+[node name="Node" type="Node" parent="QuadGround/MeshInstance3D/Image Quad Color" unique_id=73773345 node_paths=PackedStringArray("ground_image_source", "mini_cars_parent_node", "quad_left_down", "quad_right_up")]
+script = ExtResource("4_gfcg3")
+ground_image_source = NodePath("..")
+mini_cars_parent_node = NodePath("../../../../MiniCars")
+quad_left_down = NodePath("../../../Node3DDownLeft")
+quad_right_up = NodePath("../../../Node3DTopRight")
+
+[node name="Node3DDownLeft" type="Node3D" parent="QuadGround" unique_id=1593232376]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
+
+[node name="Node3DTopRight" type="Node3D" parent="QuadGround" unique_id=613480276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1904084936]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1116931, 0)
+
+[node name="AreaWall" type="Node3D" parent="." unique_id=1589358081]
+visible = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AreaWall" unique_id=137700285]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaWall/StaticBody3D" unique_id=1624569828]
+shape = SubResource("WorldBoundaryShape3D_iwysq")
+
+[node name="Node3D" type="Node3D" parent="AreaWall" unique_id=378886304]
+
+[node name="Node3D" type="Node3D" parent="AreaWall/Node3D" unique_id=2128394265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 5.7531266, 2.4752665, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaWall/Node3D/Node3D" unique_id=508805474]
+visible = false
+mesh = SubResource("BoxMesh_iwysq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AreaWall/Node3D/Node3D" unique_id=230917446]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaWall/Node3D/Node3D/StaticBody3D" unique_id=2039730156]
+shape = SubResource("BoxShape3D_jdo2i")
+
+[node name="Node3D2" type="Node3D" parent="AreaWall" unique_id=790454439]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Node3D" type="Node3D" parent="AreaWall/Node3D2" unique_id=1038167304]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 5.7531266, 2.4752665, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaWall/Node3D2/Node3D" unique_id=2124822897]
+visible = false
+mesh = SubResource("BoxMesh_iwysq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AreaWall/Node3D2/Node3D" unique_id=382855638]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaWall/Node3D2/Node3D/StaticBody3D" unique_id=576521348]
+shape = SubResource("BoxShape3D_jdo2i")
+
+[node name="Node3D3" type="Node3D" parent="AreaWall" unique_id=1728386393]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Node3D" type="Node3D" parent="AreaWall/Node3D3" unique_id=189827154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 5.7531266, 2.4752665, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaWall/Node3D3/Node3D" unique_id=1765267506]
+visible = false
+mesh = SubResource("BoxMesh_iwysq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AreaWall/Node3D3/Node3D" unique_id=356193690]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaWall/Node3D3/Node3D/StaticBody3D" unique_id=177030519]
+shape = SubResource("BoxShape3D_jdo2i")
+
+[node name="Node3D4" type="Node3D" parent="AreaWall" unique_id=1639206052]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
+
+[node name="Node3D" type="Node3D" parent="AreaWall/Node3D4" unique_id=405072336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 5.7531266, 2.4752665, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AreaWall/Node3D4/Node3D" unique_id=836597430]
+visible = false
+mesh = SubResource("BoxMesh_iwysq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="AreaWall/Node3D4/Node3D" unique_id=1830899582]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaWall/Node3D4/Node3D/StaticBody3D" unique_id=306573519]
+shape = SubResource("BoxShape3D_jdo2i")
+
+[node name="MiniCars" type="Node3D" parent="." unique_id=635309778]
+
+[node name="ModMiniCarFromJoystickCharacter" parent="MiniCars" unique_id=1903600585 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4693408, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter2" parent="MiniCars" unique_id=872344230 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3020325, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter3" parent="MiniCars" unique_id=30907496 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1650466, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter4" parent="MiniCars" unique_id=570110476 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9420958, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter5" parent="MiniCars" unique_id=362277693 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7308566, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter6" parent="MiniCars" unique_id=1678544773 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5873654, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter7" parent="MiniCars" unique_id=1479176533 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47559097, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter8" parent="MiniCars" unique_id=263465734 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.23807602, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter9" parent="MiniCars" unique_id=1120875478 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.042822137, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter10" parent="MiniCars" unique_id=264394985 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18113758, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter11" parent="MiniCars" unique_id=2062771100 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4318248, 0, 0)
+
+[node name="ModMiniCarFromJoystickCharacter12" parent="MiniCars" unique_id=746098163 instance=ExtResource("1_iwysq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62662876, 0, 0)

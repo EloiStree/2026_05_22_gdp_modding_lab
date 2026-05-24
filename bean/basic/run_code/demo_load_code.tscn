@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://6h4i03buys4v"]
 
 [ext_resource type="PackedScene" uid="uid://uaefse3oals8" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/drop_modding_code_loader_text_edit.tscn" id="1_h4oq7"]
+[ext_resource type="Script" uid="uid://c8p142fdin3y8" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_and_submit_button.gd" id="2_xs063"]
 
 [node name="DemoLoadCode" type="Control" unique_id=1577176125]
 layout_mode = 3
@@ -13,7 +14,8 @@ grow_vertical = 2
 [node name="DropModdingCodeLoaderTextEdit" parent="." unique_id=477758516 instance=ExtResource("1_h4oq7")]
 layout_mode = 1
 
-[node name="CodeEdit" parent="DropModdingCodeLoaderTextEdit" index="0" unique_id=1849651803]
-delimiter_strings = Array[String](["\" \"", "' '"])
+[node name="ModCodeEditAndSubmitButton" parent="DropModdingCodeLoaderTextEdit/ModRunTextAsScript" parent_id_path=PackedInt32Array(477758516, 717450880) index="0" unique_id=887999293]
+script = ExtResource("2_xs063")
+text_to_validate = ""
 
 [editable path="DropModdingCodeLoaderTextEdit"]

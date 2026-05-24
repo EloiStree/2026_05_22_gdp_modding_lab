@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://uaefse3oals8"]
 
 [ext_resource type="Script" uid="uid://ba1fd81r1lqv3" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_run_text_as_script.gd" id="1_5hmgd"]
-[ext_resource type="Script" uid="uid://bbpecqrwascwy" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_and_validate_button.gd" id="2_m2e7l"]
+[ext_resource type="Script" uid="uid://c8p142fdin3y8" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_and_submit_button.gd" id="2_rv4ey"]
 [ext_resource type="Script" uid="uid://svr53fv3atrl" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_load_default_script.gd" id="3_m2e7l"]
 [ext_resource type="Script" uid="uid://hn6oa4lbig1f" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_just_a_hello_world.gd" id="4_ecu5k"]
 [ext_resource type="Script" uid="uid://72xy56lu0y51" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_link_unlink_node_as_children.gd" id="5_rv4ey"]
@@ -37,10 +37,9 @@ script = ExtResource("1_5hmgd")
 metadata/_custom_type_script = "uid://ba1fd81r1lqv3"
 
 [node name="ModCodeEditAndSubmitButton" type="Node" parent="ModRunTextAsScript" unique_id=887999293 node_paths=PackedStringArray("code_editor", "submit_button")]
-script = ExtResource("2_m2e7l")
+script = ExtResource("2_rv4ey")
 code_editor = NodePath("../../CodeEdit")
 submit_button = NodePath("../../CodeEdit/Button")
-metadata/_custom_type_script = "uid://bbpecqrwascwy"
 
 [node name="ModCodeEditLoadDefaultScript" type="Node" parent="ModRunTextAsScript" unique_id=307373093 node_paths=PackedStringArray("text_editr_to_affect")]
 script = ExtResource("3_m2e7l")
