@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://6h4i03buys4v"]
 
-[ext_resource type="PackedScene" uid="uid://uaefse3oals8" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/modding_code_loader_text_edit.tscn" id="1_h4oq7"]
+[ext_resource type="PackedScene" uid="uid://uaefse3oals8" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/drop_modding_code_loader_text_edit.tscn" id="1_h4oq7"]
 
 [node name="DemoLoadCode" type="Control" unique_id=1577176125]
 layout_mode = 3
@@ -14,8 +14,6 @@ grow_vertical = 2
 layout_mode = 1
 
 [node name="CodeEdit" parent="ModdingCodeLoaderTextEdit" index="0" unique_id=1849651803]
-grow_horizontal = 2
-grow_vertical = 2
-delimiter_strings = Array[String](["' '", "\" \""])
+delimiter_strings = Array[String](["\" \"", "' '"])
 
 [editable path="ModdingCodeLoaderTextEdit"]
