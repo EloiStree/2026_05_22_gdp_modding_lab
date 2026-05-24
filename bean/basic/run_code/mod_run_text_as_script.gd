@@ -20,15 +20,16 @@ func _process(delta: float) -> void:
 @export var where_to_create_node:Node3D
 @export var load_code_inspector_at_ready:bool=true
 @export var unique_code_file_name:String ="change_my_name.gd"
+@export var create_node_as_node_3d:bool=false
 
 @export_group("Debug")
 @export var created_node_holding_code:Node
-@export var use_3d_node_by_default:bool=false
 
 
 
 func _ready() -> void:
 	if  load_code_inspector_at_ready:
+		await get_tree().create_timer(0.1).timeout
 		load_and_run_text_as_godot_script(given_godot_code_to_execute)
 
 func load_and_run_code_from_godot_script(script: Script):
@@ -74,7 +75,7 @@ func load_and_run_text_as_godot_script(code:String):
 		return
 	
 	## we need for that a node
-	var node :Node =  Node3D.new() if use_3d_node_by_default else Node.new()
+	var node :Node =  Node3D.new() if create_node_as_node_3d else Node.new()
 	# we have a new node but not yet in the scene
 	node.set_script(script)
 	# he has our code 

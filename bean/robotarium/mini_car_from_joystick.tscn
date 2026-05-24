@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://3f523tu5p77d" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/mod_mini_car_from_joystick_character.gd" id="1_pkuxv"]
 [ext_resource type="Script" uid="uid://d1clpjv3jowhv" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/mod_mini_car_line_sensors.gd" id="2_m3pfy"]
 [ext_resource type="Script" uid="uid://rijskujcm0y8" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/mod_mini_car_basic_raycast_distance.gd" id="3_xbhxo"]
+[ext_resource type="Script" uid="uid://ba1fd81r1lqv3" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_run_text_as_script.gd" id="4_gd7ry"]
+[ext_resource type="Script" uid="uid://m10dg6tx8egk" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/download_text/from_web_page/mod_download_text_from_web_page.gd" id="5_gd7ry"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iwysq"]
 size = Vector3(0.06, 0.033, 0.07)
@@ -65,4 +67,47 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031, 0.017, 0)
 
 [node name="GroundCenterWheel" type="Node3D" parent="Anchors" unique_id=2007750378]
 
+[node name="ModRunTextAsScript" type="Node" parent="." unique_id=238016613 node_paths=PackedStringArray("where_to_create_node")]
+script = ExtResource("4_gd7ry")
+given_godot_code_to_execute = "extends Node
+
+var car: ModMiniCarFromJoystickCharacter
+var timer := 0.0
+var move_forward := true
+
+func _ready():
+	print(\"Hello World\")
+
+	# Look in parent
+	car = get_parent() as ModMiniCarFromJoystickCharacter
+
+	if car == null:
+		push_error(\"Parent is not ModMiniCarFromJoystickCharacter\")
+
+func _process(delta: float) -> void:
+	if car == null:
+		return
+
+	timer += delta
+
+	# Switch every 1 second
+	if timer >= 1.0:
+		timer = 0.0
+		move_forward = !move_forward
+
+	# Forward then left in loop
+	if move_forward:
+		car.set_joystick(Vector2(0, 1))   # forward
+	else:
+		car.set_joystick(Vector2(-1, 0))  # left"
+where_to_create_node = NodePath("..")
+unique_code_file_name = "mini_car_code.gd"
+create_node_as_node_3d = true
+metadata/_custom_type_script = "uid://ba1fd81r1lqv3"
+
+[node name="ModDownloadTextFromWebPage" type="Node" parent="ModRunTextAsScript" unique_id=1659887900]
+script = ExtResource("5_gd7ry")
+metadata/_custom_type_script = "uid://m10dg6tx8egk"
+
 [connection signal="on_raycast_hit_distance_updated" from="NodeRaycast/RayCast3D/RayCastDistance" to="." method="set_by_developer_distance_rayscast"]
+[connection signal="on_text_downloaded" from="ModRunTextAsScript/ModDownloadTextFromWebPage" to="ModRunTextAsScript" method="load_and_run_text_as_godot_script"]

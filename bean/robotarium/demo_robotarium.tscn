@@ -1,12 +1,16 @@
 [gd_scene format=3 uid="uid://dga56gkj34w55"]
 
 [ext_resource type="PackedScene" uid="uid://2geiadxc82ku" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/mini_car_from_joystick.tscn" id="1_iwysq"]
-[ext_resource type="Material" uid="uid://r30qfet6qnfh" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/mat_maze_image.tres" id="1_jdo2i"]
 [ext_resource type="Script" uid="uid://cihrgaftpqocg" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/mod_image_pixel_color_basic.gd" id="2_if0x4"]
 [ext_resource type="Texture2D" uid="uid://vmh4ovfykyp3" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/maze.jpg" id="3_5o1bp"]
 [ext_resource type="Script" uid="uid://bobtnumhfhyin" path="res://addons/2026_05_22_gdp_modding_lab/bean/robotarium/image_color/mod_give_color_to_mini_car.gd" id="4_gfcg3"]
+[ext_resource type="Script" uid="uid://cc62m4gidkwxp" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/download_image/mod_download_image_from_url.gd" id="5_3dfsf"]
+[ext_resource type="Script" uid="uid://cqnggiqmep6ps" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/download_image/mod_texture_to_mesh_instance_surface.gd" id="5_la8rm"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_iwysq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dfsf"]
+albedo_texture = ExtResource("3_5o1bp")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_iwysq"]
 
@@ -24,25 +28,35 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="QuadGround" unique_id=2041654097]
 transform = Transform3D(1, 0, 0, 0, 2.9802322e-08, 1, 0, -1, 2.9802322e-08, 0, 0, 0)
-material_override = ExtResource("1_jdo2i")
 mesh = SubResource("QuadMesh_iwysq")
+surface_material_override/0 = SubResource("StandardMaterial3D_3dfsf")
 
 [node name="Image Quad Color" type="Node" parent="QuadGround/MeshInstance3D" unique_id=1274795207]
 script = ExtResource("2_if0x4")
 current_texture = ExtResource("3_5o1bp")
 
-[node name="Node" type="Node" parent="QuadGround/MeshInstance3D/Image Quad Color" unique_id=73773345 node_paths=PackedStringArray("ground_image_source", "mini_cars_parent_node", "quad_left_down", "quad_right_up")]
+[node name="Color From Texture" type="Node" parent="QuadGround/MeshInstance3D/Image Quad Color" unique_id=73773345 node_paths=PackedStringArray("ground_image_source", "mini_cars_parent_node", "quad_left_down", "quad_right_up")]
 script = ExtResource("4_gfcg3")
 ground_image_source = NodePath("..")
 mini_cars_parent_node = NodePath("../../../../MiniCars")
 quad_left_down = NodePath("../../../Node3DDownLeft")
 quad_right_up = NodePath("../../../Node3DTopRight")
 
+[node name="ModTextureToMeshInstanceSurface" type="Node" parent="QuadGround/MeshInstance3D" unique_id=1177784187 node_paths=PackedStringArray("mesh_instance")]
+script = ExtResource("5_la8rm")
+mesh_instance = NodePath("..")
+metadata/_custom_type_script = "uid://cqnggiqmep6ps"
+
 [node name="Node3DDownLeft" type="Node3D" parent="QuadGround" unique_id=1593232376]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.5)
 
 [node name="Node3DTopRight" type="Node3D" parent="QuadGround" unique_id=613480276]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
+
+[node name="ModDownloadImageFromUrl" type="Node" parent="QuadGround" unique_id=1009025822]
+script = ExtResource("5_3dfsf")
+url_to_download = "https://raw.githubusercontent.com/EloiStree/Gist/refs/heads/main/Godot/Mod/2026_05_24/circuit_line.png"
+metadata/_custom_type_script = "uid://cc62m4gidkwxp"
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1904084936]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1116931, 0)
@@ -152,3 +166,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4318248, 0, 0)
 
 [node name="ModMiniCarFromJoystickCharacter12" parent="MiniCars" unique_id=746098163 instance=ExtResource("1_iwysq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62662876, 0, 0)
+
+[connection signal="on_image_loaded_as_texture" from="QuadGround/ModDownloadImageFromUrl" to="QuadGround/MeshInstance3D/Image Quad Color" method="load_texture"]
+[connection signal="on_image_loaded_as_texture" from="QuadGround/ModDownloadImageFromUrl" to="QuadGround/MeshInstance3D/ModTextureToMeshInstanceSurface" method="load_texture_to_surface"]
