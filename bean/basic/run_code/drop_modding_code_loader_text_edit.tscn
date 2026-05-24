@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bbpecqrwascwy" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_and_validate_button.gd" id="2_m2e7l"]
 [ext_resource type="Script" uid="uid://svr53fv3atrl" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_code_edit_load_default_script.gd" id="3_m2e7l"]
 [ext_resource type="Script" uid="uid://hn6oa4lbig1f" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_just_a_hello_world.gd" id="4_ecu5k"]
+[ext_resource type="Script" uid="uid://72xy56lu0y51" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_link_unlink_node_as_children.gd" id="5_rv4ey"]
 
 [node name="ModdingCodeLoaderTextEdit" type="Control" unique_id=477758516]
 layout_mode = 3
@@ -47,4 +48,16 @@ script_to_load = ExtResource("4_ecu5k")
 text_editr_to_affect = [NodePath("../../CodeEdit")]
 metadata/_custom_type_script = "uid://svr53fv3atrl"
 
+[node name="ModLinkUnlinkNodesAsChildren" type="Node" parent="ModRunTextAsScript" unique_id=2002926727 node_paths=PackedStringArray("what_to_link", "where_to_store_when_unlink")]
+script = ExtResource("5_rv4ey")
+what_to_link = [NodePath("CodeToPutInCreatedNode")]
+where_to_store_when_unlink = NodePath(".")
+metadata/_custom_type_script = "uid://72xy56lu0y51"
+
+[node name="CodeToPutInCreatedNode" type="Node" parent="ModRunTextAsScript/ModLinkUnlinkNodesAsChildren" unique_id=265657598]
+
+[node name="Test" type="Node" parent="ModRunTextAsScript/ModLinkUnlinkNodesAsChildren/CodeToPutInCreatedNode" unique_id=256899756]
+
+[connection signal="on_created_node" from="ModRunTextAsScript" to="ModRunTextAsScript/ModLinkUnlinkNodesAsChildren" method="link_to_node"]
+[connection signal="on_destroy_previous_node_start" from="ModRunTextAsScript" to="ModRunTextAsScript/ModLinkUnlinkNodesAsChildren" method="link_to_node" unbinds=1]
 [connection signal="on_code_submit" from="ModRunTextAsScript/ModCodeEditAndSubmitButton" to="ModRunTextAsScript" method="load_and_run_text_as_godot_script"]

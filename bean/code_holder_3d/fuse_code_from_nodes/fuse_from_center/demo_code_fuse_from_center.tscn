@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://b77hk062j23qp"]
+
+[ext_resource type="Script" uid="uid://sno136jn35ww" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_text_3d.gd" id="1_u32yy"]
+[ext_resource type="Script" uid="uid://dcl8plsoyvip" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/fuse_code_from_nodes/fuse_from_center/mod_fuse_code_from_center.gd" id="2_3v65i"]
+[ext_resource type="Script" uid="uid://nr75ul2cdr11" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_text.gd" id="3_tg2om"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0owgs"]
+
+[node name="DemoCodeFuseFromCenter" type="Node3D" unique_id=763536155]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1202198581]
+transform = Transform3D(0.96685904, 0, -0.25531077, 0, 1, 0, 0.25531077, 0, 0.96685904, 0.092320174, 0, -0.34961545)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=834791540]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0, 0)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=92469819]
+transform = Transform3D(0.10734309, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.06645911, 0, -1.1920929e-09)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="ModCodeHolderText3D" type="Node3D" parent="Node3D" unique_id=1690334737]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07760068, 0.18750347, -7.636845e-08)
+script = ExtResource("1_u32yy")
+code_as_text = "A"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D/ModCodeHolderText3D" unique_id=1790579424]
+transform = Transform3D(0.04, 0, 9.313226e-10, 0, 0.04, 0, -9.313226e-10, 0, 0.04, 0, 0, 0)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="ModCodeHolderText3D2" type="Node3D" parent="Node3D" unique_id=229288059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0015474856, 0.13135919, 3.7252903e-09)
+script = ExtResource("1_u32yy")
+code_as_text = "B"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D/ModCodeHolderText3D2" unique_id=1869730440]
+transform = Transform3D(0.04, 0, 1.8626451e-09, 0, 0.04, 0, -1.8626451e-09, 0, 0.04, 0, 0, 0)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="ModCodeHolderText3D5" type="Node3D" parent="Node3D" unique_id=1486937383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023879603, 0.1691745, -1.8253922e-07)
+script = ExtResource("1_u32yy")
+code_as_text = "B"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D/ModCodeHolderText3D5" unique_id=1540196849]
+transform = Transform3D(0.04, 0, 3.7252903e-09, 0, 0.04, 0, -3.7252903e-09, 0, 0.04, 0, 0, 0)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="ModCodeHolderText3D6" type="Node3D" parent="Node3D" unique_id=1308447942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30626446, 0.13135919, 0)
+script = ExtResource("1_u32yy")
+code_as_text = "B"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Node3D/ModCodeHolderText3D6" unique_id=1383087618]
+transform = Transform3D(0.04, 0, 3.7252903e-09, 0, 0.04, 0, -3.7252903e-09, 0, 0.04, 0, 0, 0)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="ModCodeHolderText3D3" type="Node3D" parent="Node3D" unique_id=1385322044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29401132, 0.13135919, 0.26044202)
+script = ExtResource("1_u32yy")
+code_as_text = "C"
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Node3D/ModCodeHolderText3D3" unique_id=670653083]
+transform = Transform3D(0.04, 0, 3.7252903e-09, 0, 0.04, 0, -3.7252903e-09, 0, 0.04, 0, 0, 0)
+mesh = SubResource("BoxMesh_0owgs")
+
+[node name="ModFuseCodeFromDirection" type="Node" parent="Node3D" unique_id=377936797 node_paths=PackedStringArray("anchor_point", "nodes_to_search_in")]
+script = ExtResource("2_3v65i")
+anchor_point = NodePath("..")
+nodes_to_search_in = [NodePath("..")]
+metadata/_custom_type_script = "uid://dcl8plsoyvip"
+
+[node name="Timer" type="Timer" parent="Node3D/ModFuseCodeFromDirection" unique_id=98902770]
+autostart = true
+
+[node name="ModCodeHolderText" type="Node" parent="Node3D" unique_id=1905935724]
+script = ExtResource("3_tg2om")
+code_as_text = "Ha ha"
+metadata/_custom_type_script = "uid://nr75ul2cdr11"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=77682358]
+
+[node name="TextEdit" type="TextEdit" parent="CanvasLayer" unique_id=322405759]
+anchors_preset = -1
+anchor_right = 0.418
+anchor_bottom = 1.0
+offset_right = 0.46398926
+offset_bottom = -2.0
+
+[connection signal="on_code_fused" from="Node3D/ModFuseCodeFromDirection" to="CanvasLayer/TextEdit" method="set_text"]
+[connection signal="timeout" from="Node3D/ModFuseCodeFromDirection/Timer" to="Node3D/ModFuseCodeFromDirection" method="fuse_code_from_nodes_in_inspector"]

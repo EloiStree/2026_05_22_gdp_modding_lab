@@ -1,6 +1,8 @@
 class_name ModRunTextAsScript
 extends Node
 
+signal on_destroy_previous_node_start(node:Node)
+signal on_destroy_previous_node_end()
 signal on_created_node(node_created:Node)
 signal on_created_node_with_code(node_created:Node, code:String)
 signal on_fail_to_load_code(code:String)
@@ -34,13 +36,17 @@ func load_and_run_code_from_godot_script(script: Script):
 	var text = FileAccess.get_file_as_string(local_path)
 	load_and_run_text_as_godot_script(text)
 
-func load_and_run_text_as_godot_script(code:String):
-	## When we start we need to destroy the previous one.
+func unload_current_code():
+	on_destroy_previous_node_start.emit(created_node_holding_code)
 	if created_node_holding_code:
 		## if it existe. kill it. I means... lets is free 
 		created_node_holding_code.queue_free()
 		created_node_holding_code = null
-		
+	on_destroy_previous_node_end.emit()		
+
+func load_and_run_text_as_godot_script(code:String):
+	## When we start we need to destroy the previous one.
+	unload_current_code()
 	## code cant be loaded like that. you need to load from file
 	## we can create the file in folde of our application
 	var script_path: String = "user://"+unique_code_file_name
@@ -52,7 +58,7 @@ func load_and_run_text_as_godot_script(code:String):
 		file_connection.store_string(code)
 		file_connection.close()
 	else:
-		push_error("Oups file was not created")
+		push_error("File was not created")
 		return
 	
 	# lets try to execute it now.
@@ -63,7 +69,7 @@ func load_and_run_text_as_godot_script(code:String):
 	)
 
 	if not script is GDScript:
-		push_error("Hum that not a Godot Script")
+		push_error("That not a Godot Script")
 		on_fail_to_load_code.emit(code)
 		return
 	
@@ -86,8 +92,6 @@ func load_and_run_text_as_godot_script(code:String):
 	on_created_node.emit(node)
 	on_created_node_with_code.emit(node,code)
 	
-	## from here you will have ready trigger
-	# and _process
 	
 
 	
