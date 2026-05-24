@@ -10,10 +10,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ModdingCodeLoaderTextEdit" parent="." unique_id=477758516 instance=ExtResource("1_h4oq7")]
+[node name="DropModdingCodeLoaderTextEdit" parent="." unique_id=477758516 instance=ExtResource("1_h4oq7")]
 layout_mode = 1
 
-[node name="CodeEdit" parent="ModdingCodeLoaderTextEdit" index="0" unique_id=1849651803]
+[node name="CodeEdit" parent="DropModdingCodeLoaderTextEdit" index="0" unique_id=1849651803]
 delimiter_strings = Array[String](["\" \"", "' '"])
 
-[editable path="ModdingCodeLoaderTextEdit"]
+[editable path="DropModdingCodeLoaderTextEdit"]

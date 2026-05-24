@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://b0uo80o3jrgbi"]
+
+[ext_resource type="Script" uid="uid://m10dg6tx8egk" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/download_text/from_web_page/mod_download_text_from_web_page.gd" id="1_o8kdi"]
+
+[node name="DemoDownloadWebPage" type="Control" unique_id=235450365]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextEdit" type="TextEdit" parent="." unique_id=1214110784]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.349
+anchor_bottom = 0.81200004
+offset_right = -0.04800415
+offset_bottom = -0.17602539
+
+[node name="ModDownloadTextFromWebPage" type="Node" parent="." unique_id=206363027]
+script = ExtResource("1_o8kdi")
+url = "https://github.com/EloiStree/Gist/blob/main/Godot/Mod/2026_05_24/hello_world.gd"
+load_at_ready = true
+use_debug_print = true
+metadata/_custom_type_script = "uid://m10dg6tx8egk"
+
+[connection signal="on_text_downloaded" from="ModDownloadTextFromWebPage" to="TextEdit" method="set_text"]

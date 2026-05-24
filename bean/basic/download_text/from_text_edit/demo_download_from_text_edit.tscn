@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://cr4j0ah2db6g5"]
+
+[ext_resource type="Script" uid="uid://cdiwbxkkl5862" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/download_text/from_text_edit/mod_download_text_from_code_edit_forms.gd" id="1_od6uy"]
+
+[node name="DemoDownloadFromTextEdit" type="Control" unique_id=1284220529]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CodeEdit" type="CodeEdit" parent="." unique_id=543364653]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.609
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=249353434]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.41400003
+anchor_bottom = 1.0
+offset_right = -6.9280396
+
+[node name="CodeEdit" type="CodeEdit" parent="VBoxContainer" unique_id=1454025897]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+text = "extends Node
+
+func _ready():
+  print(\"(v) (';;')(v)...\")"
+
+[node name="CodeEdit2" type="CodeEdit" parent="VBoxContainer" unique_id=254593187]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+placeholder_text = "Your code here"
+delimiter_strings = Array[String](["\" \"", "' '"])
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer" unique_id=1340404858]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+text = "func _process(delta:float):
+	print(\"A Frame\")"
+
+[node name="Button" type="Button" parent="." unique_id=1290471856]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.41400003
+anchor_top = 0.35500002
+anchor_right = 0.60200006
+anchor_bottom = 0.505
+offset_left = 0.07196045
+offset_top = 1.9599915
+offset_right = 0.49591064
+offset_bottom = -0.23999023
+text = "Fuse"
+
+[node name="ModDownloadTextFromCodeEditForms" type="Node" parent="." unique_id=686862396 node_paths=PackedStringArray("code_editors", "text_editors")]
+script = ExtResource("1_od6uy")
+code_editors = [NodePath("../VBoxContainer/CodeEdit"), NodePath("../VBoxContainer/CodeEdit2")]
+text_editors = [NodePath("../VBoxContainer/TextEdit")]
+metadata/_custom_type_script = "uid://cdiwbxkkl5862"
+
+[connection signal="button_down" from="Button" to="ModDownloadTextFromCodeEditForms" method="combine_and_emit"]
+[connection signal="on_combined_text_requested" from="ModDownloadTextFromCodeEditForms" to="CodeEdit" method="set_text"]

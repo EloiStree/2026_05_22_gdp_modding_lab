@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://7m4swyj48v3"]
+
+[ext_resource type="Script" uid="uid://nr75ul2cdr11" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_text.gd" id="1_dn7lf"]
+[ext_resource type="Script" uid="uid://baug4x5e7tu03" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_script.gd" id="2_7jcdx"]
+[ext_resource type="Script" uid="uid://hn6oa4lbig1f" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/run_code/mod_just_a_hello_world.gd" id="3_shjkb"]
+[ext_resource type="Script" uid="uid://sno136jn35ww" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_text_3d.gd" id="4_y5q2w"]
+[ext_resource type="Script" uid="uid://bxplrd7kqkw0e" path="res://addons/2026_05_22_gdp_modding_lab/bean/code__holder_3d/code_holder/mod_code_holder_script_3d.gd" id="5_ok40b"]
+
+[node name="DemoCodeHolder" type="Node3D" unique_id=794046637]
+
+[node name="Node" type="Node" parent="." unique_id=988395739]
+
+[node name="ModCodeHolderText" type="Node" parent="Node" unique_id=1440288010]
+script = ExtResource("1_dn7lf")
+metadata/_custom_type_script = "uid://nr75ul2cdr11"
+
+[node name="ModCodeHolderScript" type="Node" parent="Node" unique_id=797788020]
+script = ExtResource("2_7jcdx")
+code_as_script = ExtResource("3_shjkb")
+metadata/_custom_type_script = "uid://baug4x5e7tu03"
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1786235933]
+
+[node name="ModCodeHolderText3D" type="Node3D" parent="Node3D" unique_id=223929491]
+script = ExtResource("4_y5q2w")
+metadata/_custom_type_script = "uid://sno136jn35ww"
+
+[node name="ModCodeHolderScript3D" type="Node3D" parent="Node3D" unique_id=257696218]
+script = ExtResource("5_ok40b")
+metadata/_custom_type_script = "uid://bxplrd7kqkw0e"

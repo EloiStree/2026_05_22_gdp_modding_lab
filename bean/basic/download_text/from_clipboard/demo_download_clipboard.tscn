@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bqi2mwo5gw6"]
+
+[ext_resource type="Script" uid="uid://bxmr8jh0u0jm3" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/download_text/from_clipboard/mod_download_text_from_clipboard.gd" id="1_y0t2a"]
+
+[node name="DemoDownloadClipboard" type="Control" unique_id=1405574526]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextEdit" type="TextEdit" parent="." unique_id=26152078]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.49100003
+anchor_bottom = 0.855
+offset_right = -0.63201904
+offset_bottom = -11.040039
+
+[node name="Button" type="Button" parent="TextEdit" unique_id=402675115]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.665
+anchor_top = 0.84000003
+anchor_right = 0.98800004
+anchor_bottom = 0.98
+offset_left = 0.2749939
+offset_top = -0.120025635
+offset_right = -0.22003174
+offset_bottom = -0.14001465
+text = "Reload"
+
+[node name="ModDownloadTextFromClipboard" type="Node" parent="." unique_id=1796381979]
+script = ExtResource("1_y0t2a")
+load_clipboard_at_ready = true
+metadata/_custom_type_script = "uid://bxmr8jh0u0jm3"
+
+[connection signal="button_down" from="TextEdit/Button" to="ModDownloadTextFromClipboard" method="download_text_from_clipboard"]
+[connection signal="on_text_downloaded_from_clipboard" from="ModDownloadTextFromClipboard" to="TextEdit" method="set_text"]

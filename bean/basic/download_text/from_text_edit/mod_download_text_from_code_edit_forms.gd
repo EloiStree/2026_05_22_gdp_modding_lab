@@ -1,4 +1,4 @@
-class_name E13DownloadTextFromCodeEditForms
+class_name ModDownloadTextFromCodeEditForms
 extends Node
 
 
@@ -25,6 +25,6 @@ func combine_and_emit():
 		if editor.text:
 			combined_text += editor.text + "\n"
 
-	if add_extends_if_missing and not combined_text.contains("extends"):
+	if add_extends_if_missing and not combined_text.contains("extends "):
 		combined_text = "extends Node\n\n" + combined_text
 	on_combined_text_requested.emit(combined_text)
