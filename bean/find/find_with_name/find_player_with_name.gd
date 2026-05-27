@@ -1,6 +1,7 @@
 extends Node
 
-@onready var player_node: Node = get_tree().root.find_child("Player", true, false)
+@export var player_name="Player"
+@onready var player_node: Node = get_tree().root.find_child(player_name, true, false)
 @export var player_node_found:Node3D
 
 func _ready() -> void:

@@ -1,0 +1,461 @@
+[gd_scene format=3 uid="uid://2geiadxc82ku"]
+
+[sub_resource type="GDScript" id="GDScript_n423j"]
+script/source = "class_name ModMiniCarFromJoystickCharacter
+extends CharacterBody3D
+
+@export var move_speed_in_ms: float = 0.2
+@export var rotation_speed_angle: float = 90
+@export var gravity: float = 0.2 
+	
+@export var joystick: Vector2 = Vector2.ZERO
+@export var forward_rayscast_distance:float
+@export var left_line_sensor_color:Color
+@export var right_line_sensor_color:Color
+@export var global_euler_for_debug:Vector3
+@export var global_position_for_debug:Vector3
+
+## Expect a joystick from -1 to 1 in X Yup
+func set_joystick(joystick_value: Vector2) -> void:
+	joystick_value.x = clamp(joystick_value.x, -1, 1)
+	joystick_value.y = clamp(joystick_value.y, -1, 1)
+	self.joystick = joystick_value    
+
+func _physics_process(delta: float) -> void:
+	
+	global_position_for_debug = car_ground_wheel_center_point.global_position
+	global_euler_for_debug = car_ground_wheel_center_point.global_rotation_degrees
+	
+	## On tourne sur le Y du character avec le temps qui passe par frame (delta)
+	# Attention le rotation sont en radian et pas en degrees.
+	if abs(joystick.x) > 0.1: 
+		rotate_y(-joystick.x * deg_to_rad(rotation_speed_angle)     * delta)
+
+	# Le Z de godot est inverse du Z de Unity que l on utilise nous.
+	var forward_direction = -global_transform.basis.z      
+	## On utilise la vitesse et le joystick pour donner la direction
+	var target_velocity = forward_direction * (joystick.y) * move_speed_in_ms    
+	## On donne les informations a velocity pour bouger le character
+	velocity.x = target_velocity.x
+	velocity.z = target_velocity.z    
+	velocity.y = -gravity
+
+	## on demande au code d être calculer.
+	move_and_slide()
+
+
+func get_forward_distance()->float:
+	return forward_rayscast_distance
+
+func get_left_line_color()->Color:
+	return left_line_sensor_color
+
+func get_right_line_color()->Color:
+	return right_line_sensor_color
+
+
+
+#region COMPLEXITY
+
+@export var car_ground_wheel_center_point:Node3D
+@export var car_forward_point:Node3D
+@export var car_right_side_point:Node3D
+@export var car_left_line_tracker:Node3D
+@export var car_right_line_tracker:Node3D
+
+
+func set_by_developer_distance_rayscast(distance:float):
+	forward_rayscast_distance = distance
+
+func set_by_developer_left_line_color(color:Color):
+	left_line_sensor_color = color
+
+func set_by_developer_right_line_color(color:Color):
+	right_line_sensor_color = color
+
+func get_left_line_tracker_global_position()->Vector3:
+	return car_left_line_tracker.global_position if car_left_line_tracker else Vector3.ZERO
+	
+func get_right_line_tracker_global_position()->Vector3:
+	return car_right_line_tracker.global_position if car_right_line_tracker else Vector3.ZERO
+
+func get_global_position()->Vector3:
+	return car_ground_wheel_center_point.global_position if car_ground_wheel_center_point else Vector3.ZERO
+
+func get_global_euler_radian()->Vector3:
+	return car_ground_wheel_center_point.global_rotation if car_ground_wheel_center_point else Vector3.ZERO
+
+func get_global_euler_euler()->Vector3:
+	return car_ground_wheel_center_point.global_rotation_degrees if car_ground_wheel_center_point else Vector3.ZERO
+
+func get_global_quaternion()->Quaternion:
+	return Quaternion.from_euler(car_ground_wheel_center_point.global_rotation) if car_ground_wheel_center_point else Quaternion.IDENTITY
+
+func get_global_unity_forward_direction()->Vector3:
+	return -car_ground_wheel_center_point.global_basis.z if car_ground_wheel_center_point else Vector3.ZERO
+	
+#endregion
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iwysq"]
+size = Vector3(0.06, 0.033, 0.07)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jdo2i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iwysq"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_g0leh"]
+script/source = "extends Node
+class_name LineSensors
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="GDScript" id="GDScript_m3pfy"]
+script/source = "class_name ModMiniCarBasicRaycastDistance
+extends Node
+signal on_raycast_hit_distance_updated(distance: float)
+@export var raycast: RayCast3D
+@export var last_distance_in_meter: float = -1.0
+func _process(delta: float) -> void:
+	if raycast == null:
+		return
+	if raycast.is_colliding():
+		var collision_point: Vector3 = raycast.get_collision_point()
+		var distance: float = raycast.global_position.distance_to(collision_point)
+		last_distance_in_meter = distance
+		on_raycast_hit_distance_updated.emit(distance)
+	else :
+		last_distance_in_meter=0
+		on_raycast_hit_distance_updated.emit(0)
+"
+
+[sub_resource type="GDScript" id="GDScript_xbhxo"]
+script/source = "class_name ModRunTextAsScript
+extends Node
+
+signal on_destroy_previous_node_start(node:Node)
+signal on_destroy_previous_node_end()
+signal on_created_node(node_created:Node)
+signal on_created_node_with_code(node_created:Node, code:String)
+signal on_fail_to_load_code(code:String)
+
+@export_multiline()
+var given_godot_code_to_execute:String=\"\"\"
+extends Node
+func _ready():
+	print(\"Hello World\")
+
+func _process(delta: float) -> void:
+	pass
+\"\"\"
+
+@export var where_to_create_node:Node3D
+@export var load_code_inspector_at_ready:bool=true
+@export var unique_code_file_name:String =\"change_my_name.gd\"
+@export var create_node_as_node_3d:bool=false
+
+@export_group(\"Debug\")
+@export var created_node_holding_code:Node
+
+
+
+func _ready() -> void:
+	if  load_code_inspector_at_ready:
+		await get_tree().create_timer(0.1).timeout
+		load_and_run_text_as_godot_script(given_godot_code_to_execute)
+
+func load_and_run_code_from_godot_script(script: Script):
+	var local_path = script.resource_path
+	var text = FileAccess.get_file_as_string(local_path)
+	load_and_run_text_as_godot_script(text)
+
+func unload_current_code():
+	on_destroy_previous_node_start.emit(created_node_holding_code)
+	if created_node_holding_code:
+		## if it existe. kill it. I means... lets is free 
+		created_node_holding_code.queue_free()
+		created_node_holding_code = null
+	on_destroy_previous_node_end.emit()		
+
+func load_and_run_text_as_godot_script(code:String):
+	## When we start we need to destroy the previous one.
+	unload_current_code()
+	## code cant be loaded like that. you need to load from file
+	## we can create the file in folde of our application
+	var script_path: String = \"user://\"+unique_code_file_name
+	## print(script_path)
+	## to see where it is store in the end
+	print(ProjectSettings.globalize_path(script_path))
+	var file_connection =FileAccess.open(script_path, FileAccess.WRITE)
+	if file_connection:
+		file_connection.store_string(code)
+		file_connection.close()
+	else:
+		push_error(\"File was not created\")
+		return
+	
+	# lets try to execute it now.
+	var script: Script = ResourceLoader.load(
+		script_path,
+		\"GDScript\",
+		ResourceLoader.CACHE_MODE_IGNORE
+	)
+
+	if not script is GDScript:
+		push_error(\"That not a Godot Script\")
+		on_fail_to_load_code.emit(code)
+		return
+	
+	## we need for that a node
+	var node :Node =  Node3D.new() if create_node_as_node_3d else Node.new()
+	# we have a new node but not yet in the scene
+	node.set_script(script)
+	# he has our code 
+	node.set_process(true)
+	# he now use _process(delta)
+	node.set_physics_process(true)
+	# in case we need it later
+	
+	## now we add it in the scene
+	created_node_holding_code = node
+	if where_to_create_node:
+		where_to_create_node.add_child(node)
+	else:
+		add_child(node)
+	on_created_node.emit(node)
+	on_created_node_with_code.emit(node,code)
+	
+	
+
+	
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_3bucw"]
+script/source = "class_name ModDownloadTextFromWebPage
+extends Node
+
+signal on_text_downloaded(text:String)
+signal on_download_failed(code:int)
+signal on_download_failed_message(code_text:String)
+
+@export var url:String = \"\"
+@export var load_at_ready:bool=false
+@export var use_debug_print:bool=false
+@onready var http:HTTPRequest = HTTPRequest.new()
+
+
+func set_web_page_to_download_from(url_page:String):
+	url=url_page
+
+func _ready():
+	add_child(http)
+	http.request_completed.connect(_on_done)
+	if load_at_ready:
+		download()
+
+func download() -> void:
+	var final_url:String = _to_raw_url(url)
+
+	if use_debug_print:
+		print(\"Downloading:\", final_url)
+
+	var headers:Array[String] = [
+		\"User-Agent: Mozilla/5.0\"
+	]
+	var err:int = http.request(final_url, headers, HTTPClient.METHOD_GET)
+	if err != OK:
+		on_download_failed.emit(err)
+
+func _to_raw_url(input_url:String) -> String:
+	input_url = input_url.strip_edges()
+
+	if \"/raw\" in input_url:
+		return input_url
+	if \"pastebin.com\" in input_url:
+		var clean:String = input_url.split(\"?\")[0]
+		var id:String = clean.get_file()
+
+		if id.is_empty():
+			return input_url
+
+		return \"https://pastebin.com/raw/\" + id
+
+	if \"gist.github.com\" in input_url:
+		# format: https://gist.github.com/user/gistid
+		var parts:Array = input_url.split(\"/\")
+		if parts.size() >= 5:
+			var user:String = parts[3]
+			var gist_id:String = parts[4]
+			return \"https://gist.githubusercontent.com/%s/%s/raw\" % [user, gist_id]
+		return input_url
+	if is_github_url:
+		input_url= parse_url_to_github_raw(input_url)
+		
+	return input_url
+
+# Returns true if URL looks like a GitHub file page
+func is_github_url(url: String) -> bool:
+	return (
+		url.begins_with(\"https://github.com/\")
+		or url.begins_with(\"http://github.com/\")
+		or url.begins_with(\"https://www.github.com/\")
+		or url.begins_with(\"http://www.github.com/\")
+	)
+
+func parse_url_to_github_raw(url: String) -> String:
+# https://github.com/user/repo/blob/branch/path/file.gd
+# https://raw.githubusercontent.com/user/repo/branch/path/file.gd
+	if not is_github_url(url):
+		return url
+	var clean := url
+	clean = clean.replace(\"https://github.com/\", \"\")
+	clean = clean.replace(\"http://github.com/\", \"\")
+	clean = clean.replace(\"https://www.github.com/\", \"\")
+	clean = clean.replace(\"http://www.github.com/\", \"\")
+
+	var parts = clean.split(\"/\")
+	if parts.size() < 5:
+		return url
+	if parts[2] != \"blob\":
+		return url
+	var user = parts[0]
+	var repo = parts[1]
+	var branch = parts[3]
+	var file_path := \"\"
+	for i in range(4, parts.size()):
+		if i > 4:
+			file_path += \"/\"
+		file_path += parts[i]
+
+	return \"https://raw.githubusercontent.com/%s/%s/%s/%s\" % [
+		user,
+		repo,
+		branch,
+		file_path
+	]
+
+func _on_done(
+	result:int,
+	response_code:int,
+	headers:PackedStringArray,
+	body:PackedByteArray
+) -> void:
+
+	if use_debug_print:
+		print(\"HTTP:\", response_code)
+
+	if response_code == 200:
+		var text:String = body.get_string_from_utf8()
+		on_text_downloaded.emit(text)
+	else:
+		on_download_failed.emit(response_code)
+		on_download_failed_message.emit(\"ERROR:\",response_code )
+"
+
+[node name="ModMiniCarFromJoystickCharacter" type="CharacterBody3D" unique_id=1903600585 node_paths=PackedStringArray("car_ground_wheel_center_point", "car_forward_point", "car_right_side_point", "car_left_line_tracker", "car_right_line_tracker") groups=["mini_car"]]
+script = SubResource("GDScript_n423j")
+joystick = Vector2(0.95, 0.26)
+car_ground_wheel_center_point = NodePath("Anchors/GroundCenterWheel")
+car_forward_point = NodePath("Anchors/ForwardPoint")
+car_right_side_point = NodePath("Anchors/RightSidePoint")
+car_left_line_tracker = NodePath("LineReader/LeftSensor")
+car_right_line_tracker = NodePath("LineReader/RightSensor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1950372162]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.017151125, 0)
+shape = SubResource("BoxShape3D_iwysq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1677181135]
+transform = Transform3D(0.06, 0, 0, 0, 0.033, 0, 0, 0, 0.07, 0, 0.017, 0)
+mesh = SubResource("BoxMesh_jdo2i")
+surface_material_override/0 = SubResource("StandardMaterial3D_iwysq")
+
+[node name="LineReader" type="Node3D" parent="." unique_id=1608379004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.025518445)
+
+[node name="Node" type="Node" parent="LineReader" unique_id=162848409]
+script = SubResource("GDScript_g0leh")
+
+[node name="LeftSensor" type="Node3D" parent="LineReader" unique_id=1022776826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01, 0, 0)
+
+[node name="RightSensor" type="Node3D" parent="LineReader" unique_id=305890621]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0, 0)
+
+[node name="NodeRaycast" type="Node3D" parent="." unique_id=1614777075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023881894, 0.040240645)
+
+[node name="RayCast3D" type="RayCast3D" parent="NodeRaycast" unique_id=1896850591]
+target_position = Vector3(0, 0, 10)
+hit_from_inside = true
+debug_shape_thickness = 1
+
+[node name="RayCastDistance" type="Node" parent="NodeRaycast/RayCast3D" unique_id=756496075 node_paths=PackedStringArray("raycast")]
+script = SubResource("GDScript_m3pfy")
+raycast = NodePath("..")
+
+[node name="Anchors" type="Node3D" parent="." unique_id=660496731]
+
+[node name="ForwardPoint" type="Node3D" parent="Anchors" unique_id=1998888748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.017, 0.035)
+
+[node name="RightSidePoint" type="Node3D" parent="Anchors" unique_id=1593917925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031, 0.017, 0)
+
+[node name="GroundCenterWheel" type="Node3D" parent="Anchors" unique_id=2007750378]
+
+[node name="ModRunTextAsScript" type="Node" parent="." unique_id=238016613 node_paths=PackedStringArray("where_to_create_node")]
+script = SubResource("GDScript_xbhxo")
+given_godot_code_to_execute = "extends Node
+
+var car: ModMiniCarFromJoystickCharacter
+var timer := 0.0
+var move_forward := true
+
+func _ready():
+	print(\"Hello World\")
+
+	# Look in parent
+	car = get_parent() as ModMiniCarFromJoystickCharacter
+
+	if car == null:
+		push_error(\"Parent is not ModMiniCarFromJoystickCharacter\")
+
+func _process(delta: float) -> void:
+	if car == null:
+		return
+
+	timer += delta
+
+	# Switch every 1 second
+	if timer >= 1.0:
+		timer = 0.0
+		move_forward = !move_forward
+
+	# Forward then left in loop
+	if move_forward:
+		car.set_joystick(Vector2(0, 1))   # forward
+	else:
+		car.set_joystick(Vector2(-1, 0))  # left"
+unique_code_file_name = "mini_car_code.gd"
+create_node_as_node_3d = true
+where_to_create_node = NodePath("..")
+metadata/_custom_type_script = "uid://ba1fd81r1lqv3"
+
+[node name="ModDownloadTextFromWebPage" type="Node" parent="ModRunTextAsScript" unique_id=1659887900]
+script = SubResource("GDScript_3bucw")
+url = null
+load_at_ready = null
+use_debug_print = null
+metadata/_custom_type_script = "uid://m10dg6tx8egk"

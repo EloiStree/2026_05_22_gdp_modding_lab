@@ -1,11 +1,127 @@
 [gd_scene format=3 uid="uid://c0sb4od5nk78c"]
 
-[ext_resource type="Script" uid="uid://csqewfo84ex6g" path="res://addons/2026_05_22_gdp_modding_lab/bean/basic/area_3d_code_loader/mod_load_code_from_collision_area_3d.gd" id="1_2j3x5"]
-[ext_resource type="Script" uid="uid://sno136jn35ww" path="res://addons/2026_05_22_gdp_modding_lab/bean/code_holder_3d/code_holder/mod_code_holder_text_3d.gd" id="1_bnclt"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_1pi1u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1pi1u"]
+
+[sub_resource type="GDScript" id="GDScript_1pi1u"]
+script/source = "class_name  ModLoadCodeFromCollisionArea3D
+extends Node
+
+signal on_code_found(code_as_text:String)
+@export var area_observed:Area3D
+@export var get_code_method_name=\"get_code\"
+@export var unload_on_exit:bool=false
+@export var last_code_found:String=\"\"
+
+@export var listen_to_area:bool= true
+@export var listen_to_body:bool= true
+
+@export var use_debug_print:bool
+
+func _ready() -> void:
+	if area_observed:
+		area_observed.area_entered.connect(_enter_area)
+		area_observed.area_exited.connect(_exit_area)
+		area_observed.body_entered.connect(_enter_body)
+		area_observed.body_exited.connect(_exit_body)
+	else :
+		push_warning(\"Area is empty\")
+	if use_debug_print:
+		on_code_found.connect(
+			func(text):
+				print(\"Code:\", text)
+		)
+
+func _enter_area(area:Area3D):
+	if listen_to_area:
+		get_and_emit_code_from(area)		
+
+func _exit_area(area:Area3D):
+	if listen_to_area:
+		if unload_on_exit:
+			remove_code_if_had_code(area)
+
+func _enter_body(area:Node3D):
+	if listen_to_body:
+		get_and_emit_code_from(area)
+	
+func _exit_body(area:Node3D):
+	if listen_to_body:
+		if unload_on_exit:
+			remove_code_if_had_code(area)
+
+
+func get_and_emit_code_from(node:Node3D):
+	if node==null: return
+	var nodes:Array[Node] = search_recursively_for_node_with_get_code(node)
+	var code:String =\"\"
+	for n in nodes:
+		code+=n.call(get_code_method_name)
+	last_code_found= code
+	on_code_found.emit(code)
+
+	
+	
+	
+	
+func remove_code_if_had_code(node:Node3D):
+	if not remove_code_if_had_code:
+		return 
+	var nodes:Array[Node] = search_recursively_for_node_with_get_code(node)
+	if nodes and nodes.size()>0:
+		last_code_found=\"\"
+		on_code_found.emit(\"\")
+		
+		
+	
+	
+	
+func search_recursively_for_node_with_get_code(node:Node3D):
+	var node_with_code:Array[Node]= get_all_childrens_recursively_having_code_method_from_array(
+		[node],
+		get_code_method_name
+	)
+	return node_with_code
+	
+
+static func get_all_childrens_recursively_having_code_method_from_array(nodes:Array[Node], get_code_method_name:String=\"get_code\") -> Array[Node]:
+	var result:Array[Node] = []
+	for n in nodes:
+		if n.has_method(get_code_method_name):
+			result.append(n)
+		for child in n.get_children():
+			var local_nodes : Array[Node]= get_all_childrens_recursively_having_code_method_from_array([child], get_code_method_name)
+			result.append_array(local_nodes)
+	return result
+"
+
+[sub_resource type="GDScript" id="GDScript_bnclt"]
+script/source = "class_name ModCodeHolderText3D
+extends Node3D
+
+
+signal on_code_updated(new_code_as_text:String)
+signal on_code_changed(new_code_as_text:String)
+
+@export_multiline() var code_as_text:String
+
+func get_code()->String:
+	return code_as_text
+
+
+func set_code(code_as_text)->void:
+	var new_code_as_text = code_as_text if code_as_text!=null else \"\"
+	var has_changed = self.code_as_text != new_code_as_text
+	if has_changed:
+		self.code_as_text = new_code_as_text
+		on_code_changed.emit(new_code_as_text)
+	on_code_updated.emit(new_code_as_text)
+	
+	
+func set_code_with_script(script:Script)->void:
+	set_code(script.source_code)
+"
 
 [sub_resource type="Animation" id="Animation_2j3x5"]
 length = 0.001
@@ -56,7 +172,7 @@ mesh = SubResource("BoxMesh_1pi1u")
 shape = SubResource("BoxShape3D_1pi1u")
 
 [node name="ModLoadCodeFromCollisionArea3D" type="Node" parent="Area3D" unique_id=1329864501 node_paths=PackedStringArray("area_observed")]
-script = ExtResource("1_2j3x5")
+script = SubResource("GDScript_1pi1u")
 area_observed = NodePath("..")
 unload_on_exit = true
 use_debug_print = true
@@ -73,7 +189,7 @@ mesh = SubResource("BoxMesh_1pi1u")
 shape = SubResource("BoxShape3D_1pi1u")
 
 [node name="ModCodeHolderText3D" type="Node3D" parent="Node3D/CodeHolder" unique_id=1702819236]
-script = ExtResource("1_bnclt")
+script = SubResource("GDScript_bnclt")
 code_as_text = "Hello World ;)"
 metadata/_custom_type_script = "uid://sno136jn35ww"
 
