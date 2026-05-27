@@ -9,7 +9,6 @@ extends Node
 @export var method_set_light_state:String ="set_light_state"
 @export var method_set_color:String ="set_color"
 
-
 func turn_on_light():
 	if node_to_affect.has_method(method_turn_on_light):
 		node_to_affect.call(method_turn_on_light)

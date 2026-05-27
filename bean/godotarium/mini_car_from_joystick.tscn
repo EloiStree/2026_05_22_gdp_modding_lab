@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://2geiadxc82ku"]
 
 [sub_resource type="GDScript" id="GDScript_n423j"]
-script/source = "class_name ModMiniCarFromJoystickCharacter
+script/source = "class_name ModMiniCarFromJoystickCharacterBis
 extends CharacterBody3D
 
 @export var move_speed_in_ms: float = 0.2
@@ -107,7 +107,7 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="GDScript" id="GDScript_g0leh"]
 script/source = "extends Node
-class_name LineSensors
+class_name LineSensorsBis
 
 
 # Called when the node enters the scene tree for the first time.
@@ -121,7 +121,7 @@ func _process(delta: float) -> void:
 "
 
 [sub_resource type="GDScript" id="GDScript_m3pfy"]
-script/source = "class_name ModMiniCarBasicRaycastDistance
+script/source = "class_name ModMiniCarBasicRaycastDistanceBis
 extends Node
 signal on_raycast_hit_distance_updated(distance: float)
 @export var raycast: RayCast3D
@@ -140,7 +140,7 @@ func _process(delta: float) -> void:
 "
 
 [sub_resource type="GDScript" id="GDScript_xbhxo"]
-script/source = "class_name ModRunTextAsScript
+script/source = "class_name ModRunTextAsScriptBis
 extends Node
 
 signal on_destroy_previous_node_start(node:Node)
@@ -242,7 +242,7 @@ func load_and_run_text_as_godot_script(code:String):
 "
 
 [sub_resource type="GDScript" id="GDScript_3bucw"]
-script/source = "class_name ModDownloadTextFromWebPage
+script/source = "class_name ModDownloadTextFromWebPageBis
 extends Node
 
 signal on_text_downloaded(text:String)
@@ -448,14 +448,11 @@ func _process(delta: float) -> void:
 		car.set_joystick(Vector2(0, 1))   # forward
 	else:
 		car.set_joystick(Vector2(-1, 0))  # left"
+where_to_create_node = NodePath("..")
 unique_code_file_name = "mini_car_code.gd"
 create_node_as_node_3d = true
-where_to_create_node = NodePath("..")
 metadata/_custom_type_script = "uid://ba1fd81r1lqv3"
 
 [node name="ModDownloadTextFromWebPage" type="Node" parent="ModRunTextAsScript" unique_id=1659887900]
 script = SubResource("GDScript_3bucw")
-url = null
-load_at_ready = null
-use_debug_print = null
 metadata/_custom_type_script = "uid://m10dg6tx8egk"
