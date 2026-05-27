@@ -1,4 +1,4 @@
-class_name  ModLoadCodeFromCollisionArea3D
+class_name  ModLoadCodeFromCollisionArea3DBisBis
 extends Node
 
 signal on_code_found(code_as_text:String)

@@ -5,7 +5,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_1pi1u"]
 
 [sub_resource type="GDScript" id="GDScript_1pi1u"]
-script/source = "class_name ModLoadCodeFromCollisionArea3D
+script/source = "class_name ModLoadCodeFromCollisionArea3DBis
 extends Node
 
 signal on_code_found(code_as_text:String)
@@ -97,7 +97,7 @@ static func get_all_childrens_recursively_having_code_method_from_array(nodes:Ar
 "
 
 [sub_resource type="GDScript" id="GDScript_bnclt"]
-script/source = "class_name ModCodeHolderText3D
+script/source = "class_name ModCodeHolderText3DBis
 extends Node3D
 
 
@@ -173,9 +173,9 @@ shape = SubResource("BoxShape3D_1pi1u")
 
 [node name="ModLoadCodeFromCollisionArea3D" type="Node" parent="Area3D" unique_id=1329864501 node_paths=PackedStringArray("area_observed")]
 script = SubResource("GDScript_1pi1u")
+area_observed = NodePath("..")
 unload_on_exit = true
 use_debug_print = true
-area_observed = NodePath("..")
 metadata/_custom_type_script = "uid://csqewfo84ex6g"
 
 [node name="Node3D" type="Node3D" parent="." unique_id=2054318178]

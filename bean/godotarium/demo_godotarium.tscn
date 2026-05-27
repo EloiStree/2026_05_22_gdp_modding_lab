@@ -129,6 +129,7 @@ mesh = SubResource("BoxMesh_iwysq")
 shape = SubResource("BoxShape3D_jdo2i")
 
 [node name="MiniCars" type="Node3D" parent="." unique_id=635309778]
+visible = false
 
 [node name="ModMiniCarFromJoystickCharacter" parent="MiniCars" unique_id=1903600585 instance=ExtResource("6_bqudd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4693408, 0, 0)
