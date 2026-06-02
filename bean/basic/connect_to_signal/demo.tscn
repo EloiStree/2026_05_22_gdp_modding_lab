@@ -15,9 +15,5 @@ offset_bottom = 24.0
 script = ExtResource("1_x1ho7")
 node_to_listen_to = NodePath("../CheckButton")
 
-[node name="ListenToToggled Unofficial" type="Node" parent="CanvasLayer" unique_id=1548931998 node_paths=PackedStringArray("node_to_listen_to")]
-script = ExtResource("1_x1ho7")
-node_to_listen_to = NodePath("../../CustomToggle")
-
 [node name="CustomToggle" type="Node" parent="." unique_id=2062639741]
 script = ExtResource("2_n2xs1")

@@ -18,7 +18,7 @@ func _process(delta: float) -> void:
 	pass
 """
 
-@export var where_to_create_node:Node3D
+@export var where_to_create_node:Node
 @export var load_code_inspector_at_ready:bool=true
 @export var unique_code_file_name:String ="change_my_name.gd"
 @export var create_node_as_node_3d:bool=false
@@ -61,6 +61,7 @@ func load_and_run_text_as_godot_script(code:String):
 		file_connection.close()
 	else:
 		push_error("File was not created")
+		on_fail_to_load_code.emit(code)
 		return
 	
 	# lets try to execute it now.
@@ -91,6 +92,7 @@ func load_and_run_text_as_godot_script(code:String):
 		where_to_create_node.add_child(node)
 	else:
 		add_child(node)
+		
 	on_created_node.emit(node)
 	on_created_node_with_code.emit(node,code)
 	
